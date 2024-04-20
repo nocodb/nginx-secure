@@ -5,15 +5,18 @@ WORKDIR /app
 
 RUN apt-get update
 
-# Install certbot
-RUN apt-get install -y certbot
+# Install dependencies
+RUN apt-get install -y certbot python3-certbot-nginx gettext
 
-# Install certbot nginx plugin
-RUN apt-get install -y python3-certbot-nginx
+RUN mkdir -p /etc/nginx/sites-enabled
+RUN ln -s /etc/nginx/default.conf /etc/nginx/sites-enabled/default.conf
 
 EXPOSE 80 443
 
 COPY entrypoint.sh .
+COPY default.conf.template .
+
+RUN chmod +x entrypoint.sh
 
 STOPSIGNAL SIGQUIT
 

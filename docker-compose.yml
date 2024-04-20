@@ -7,6 +7,10 @@ services:
         - "80:80"
         - "443:443"
       volumes:
-        - ./nginx:/etc/nginx/sites-enabled
-        - ./certs:/etc/letsencrypt/live
+        - ./certs:/etc/letsencrypt/
       restart: unless-stopped
+      env_file: docker.env
+
+    web:
+      image: python:3.11
+      command: python -m http.server 8000
