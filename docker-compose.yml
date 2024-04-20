@@ -1,0 +1,12 @@
+services:
+    nginx:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ./nginx:/etc/nginx/sites-enabled
+        - ./certs:/etc/letsencrypt/live
+      restart: unless-stopped
