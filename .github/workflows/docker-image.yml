@@ -27,5 +27,5 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            rohittp0/nginx-secure:${{ github.sha }}
-            rohittp0/nginx-secure:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/nginx-secure:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/nginx-secure:latest
