@@ -7,6 +7,10 @@ on:
 
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -27,5 +31,5 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/nginx-secure:${{ github.sha }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/nginx-secure:latest
+            nocodb/nginx-secure:${{ github.sha }}
+            nocodb/nginx-secure:latest
