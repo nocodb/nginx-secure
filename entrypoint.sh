@@ -47,10 +47,22 @@ for MAPPING in "${MAPPING_LIST[@]}"; do
     echo "  Port:   $PROXY_PORT"
   fi
 
+  # Determine which template to use
+  CUSTOM_TEMPLATE="/app/${PROXY_HOST}.${PROXY_PORT}.conf"
+  DEFAULT_TEMPLATE="/app/default.conf.template"
+
+  if [ -f "$CUSTOM_TEMPLATE" ]; then
+    TEMPLATE="$CUSTOM_TEMPLATE"
+    echo "Using custom template: $TEMPLATE"
+  else
+    TEMPLATE="$DEFAULT_TEMPLATE"
+    echo "Using default template: $TEMPLATE"
+  fi
+
   # Use envsubst to produce a .conf per domain
   envsubst '$PROXY_DOMAIN,$PROXY_HOST,$PROXY_PORT' \
-    < /app/default.conf.template \
-    > "/etc/nginx/conf.d/${PROXY_DOMAIN}.conf"
+  < "$TEMPLATE" \
+  > "/etc/nginx/conf.d/${PROXY_DOMAIN}.conf"
 
   # -------------------------
   # Issue or Install SSL Cert
